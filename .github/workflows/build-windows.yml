@@ -31,7 +31,7 @@ jobs:
 
       - name: Build EXE
         run: |
-          pyinstaller --clean --noconfirm --windowed `
+          python -m PyInstaller --clean --noconfirm --windowed `
             --name "AutoDriveDESI" `
             --add-data "bin/windows/7z.exe;." `
             --add-data "credentials.json;." `
