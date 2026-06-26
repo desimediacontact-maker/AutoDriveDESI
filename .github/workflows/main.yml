@@ -1,0 +1,40 @@
+name: Build Windows App
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Build with PyInstaller
+        run: |
+          pyinstaller --clean --noconfirm --windowed `
+            --name "AutoDriveDESI" `
+            --add-data "7z.exe;." `
+            --add-data "credentials.json;." `
+            --collect-all customtkinter `
+            main_app.py
+
+      - name: Upload Windows Build
+        uses: actions/upload-artifact@v4
+        with:
+          name: AutoDriveDESI-Windows
+          path: dist/AutoDriveDESI/
+          retention-days: 7
