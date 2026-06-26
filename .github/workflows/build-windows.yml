@@ -24,7 +24,7 @@ jobs:
       - name: Install requirements
         run: |
           pip install -r requirements.txt
-          pip install pyinstaller
+          pip install pyinstaller customtkinter google-api-python-client google-auth-httplib2 google-auth-oauthlib
 
       - name: Check files
         run: |
@@ -37,9 +37,10 @@ jobs:
             --name "AutoDriveDESI" `
             --add-data "bin/windows/7z.exe;." `
             --add-data "credentials.json;." `
-            --collect-all customtkinter `
+            --hidden-import=customtkinter `
             --hidden-import=tkinter `
             --hidden-import=tkinter.filedialog `
+            --collect-all customtkinter `
             main_app.py
 
       - name: Upload
