@@ -38,6 +38,9 @@ jobs:
             --add-data "bin/windows/7z.exe;." `
             --add-data "credentials.json;." `
             --collect-all customtkinter `
+            --collect-all tkinter `
+            --hidden-import=tkinter `
+            --hidden-import=tkinter.filedialog `
             main_app.py
 
       - name: Upload
