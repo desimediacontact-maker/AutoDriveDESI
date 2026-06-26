@@ -13,19 +13,30 @@ jobs:
         shell: pwsh
 
     steps:
-      - name: Checkout
+      - name: 1. Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup Python
+      - name: 2. Setup Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.12'
 
-      - name: Install requirements
-        run: pip install -r requirements.txt
-
-      - name: Build EXE
+      - name: 3. Install requirements
         run: |
+          Write-Host "=== Installing requirements ==="
+          pip install -r requirements.txt
+          Write-Host "=== Requirements installed ==="
+
+      - name: 4. Check files exist
+        run: |
+          Write-Host "=== Checking required files ==="
+          ls 7z.exe
+          ls credentials.json
+          Write-Host "=== Files OK ==="
+
+      - name: 5. Build with PyInstaller
+        run: |
+          Write-Host "=== Starting PyInstaller build ==="
           pyinstaller `
             --clean `
             --noconfirm `
@@ -35,8 +46,9 @@ jobs:
             --add-data "credentials.json;." `
             --collect-all customtkinter `
             main_app.py
+          Write-Host "=== PyInstaller finished ==="
 
-      - name: Upload artifact
+      - name: 6. Upload artifact (if success)
         uses: actions/upload-artifact@v4
         with:
           name: AutoDriveDESI-Windows
