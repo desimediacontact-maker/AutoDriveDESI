@@ -33,12 +33,11 @@ jobs:
 
       - name: Build EXE
         run: |
-          python -m PyInstaller --clean --noconfirm --windowed `
+          python -m PyInstaller --clean --noconfirm --windowed --onefile `
             --name "AutoDriveDESI" `
             --add-data "bin/windows/7z.exe;." `
             --add-data "credentials.json;." `
             --collect-all customtkinter `
-            --collect-all tkinter `
             --hidden-import=tkinter `
             --hidden-import=tkinter.filedialog `
             main_app.py
@@ -47,4 +46,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: AutoDriveDESI-Windows
-          path: dist/AutoDriveDESI/
+          path: dist/AutoDriveDESI.exe
